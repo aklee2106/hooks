@@ -1,16 +1,16 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { connect } from 'react-redux';
 import { login } from '../actions/demo_actions';
 
 const AuthHook = ({login}) =>{
-    
-    handleInput = e => {
-        e.preventDefault()
-    }
 
-    handleSubmit = () => login()
 
-    handleDemo = () => login({})
+    const [username, setUserName] = useState("");
+    const [password, setPassword] = useState(""); 
+
+    const handleSubmit = () => login({username:username, password: password})
+
+    const handleDemo = () => login({username: 'User', password:'123456' });
 
    
         return (
@@ -23,14 +23,14 @@ const AuthHook = ({login}) =>{
                     type="text"
                     placeholder="Username"
                     value={username}
-                    onChange={handleInput} 
+                    onChange={e=> setUserName(e.target.value)} 
                     />
                   <input
                     name="password"
                     type="password" 
                     placeholder="Password"
                     value={password}
-                    onChange={handleInput}
+                    onChange={e=> setPassword(e.target.value)}
                     />
                   <div className="row submit">
                     <button onClick={handleDemo}>Demo User</button>
@@ -47,5 +47,5 @@ const mdp = dispatch => ({
     login: payload => dispatch(login(payload))
   });
   
-export default connect(null, mdp)(AuthClass);
+export default connect(null, mdp)(AuthHook);
   
